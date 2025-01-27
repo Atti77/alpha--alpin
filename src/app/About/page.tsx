@@ -1,4 +1,6 @@
-export default function Page() {
+import { NextPage } from "next";
+
+const About: NextPage = () => {
   return (
     <section
       id="about"
@@ -57,3 +59,5 @@ export default function Page() {
     </section>
   );
 };
+
+export default About;
