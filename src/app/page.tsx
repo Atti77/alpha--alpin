@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { HeroSection } from "../app/HeroSection/page";
-import About from "../app/About/page";
-import { References } from "../app/References/page";
-import { ContactForm } from "../app/ContactForm/page";
+import { HeroSection } from "./HeroSection/page";
+import About from "./About/page";
+import { References } from "./References/page";
+import { ContactForm } from "./ContactForm/page";
 import { Footer } from "./Footer/page";
 
 const Home: NextPage = () => {
