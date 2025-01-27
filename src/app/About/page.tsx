@@ -1,4 +1,4 @@
-const About = () => {
+export default function Page() {
   return (
     <section
       id="about"
@@ -57,5 +57,3 @@ const About = () => {
     </section>
   );
 };
-
-export default About;
