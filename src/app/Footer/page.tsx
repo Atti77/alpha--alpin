@@ -5,15 +5,21 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 export default function Footer()  {
   const scrollToReference = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
+    const element = document.getElementById('references');
+    const card = document.getElementById(id);
+    
+    if (element && card) {
+      // Először görgetünk a references szekcióhoz
       element.scrollIntoView({ behavior: "smooth" });
-      element.classList.add("animate-bounce");
+      
+      // Majd hozzáadjuk az animációt a megfelelő kártyához
+      card.classList.add("animate-bounce");
       setTimeout(() => {
-        element.classList.remove("animate-bounce");
-      }, 1000);
+        card.classList.remove("animate-bounce");
+      }, 1500);
     }
   };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
