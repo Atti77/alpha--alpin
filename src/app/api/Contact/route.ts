@@ -1,16 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
-type Data = {
-  message: string
-}
-
-export const POST = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
-  }
-
-  const { name, email, phone, message } = req.body
+export const POST = async (req: NextRequest) => {
+  const { name, email, phone, message } = await req.json()
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -20,18 +12,22 @@ export const POST = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
     },
+    tls: {
+      rejectUnauthorized: false
+    }
   })
 
   try {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: process.env.RECIPIENT_EMAIL,
-      subject: `New contact form submission from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+      subject: `Új kapcsolatfelvétel érkezett az oldalról! ${name}`,
+      text: `Név: ${name}\nEmail: ${email}\nTelefonszám: ${phone}\nMessage: ${message}`,
     })
 
-    return res.status(200).json({ message: 'Email sent successfully' })
-  } catch {
-    return res.status(500).json({ message: 'Error sending email' })
+    return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 })
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Error sending email' }, { status: 500 })
   }
 }
