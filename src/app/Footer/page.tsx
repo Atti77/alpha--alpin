@@ -18,6 +18,14 @@ export default function Footer()  {
         card.classList.remove("animate-bounce");
       }, 1500);
     }
+
+    if(card && card.id === 'reference-3' ){
+      card.scrollIntoView({ behavior: "smooth" });
+      card.classList.add("animate-bounce");
+      setTimeout(() => {
+        card.classList.remove("animate-bounce");
+      }, 1500);
+    }
   };
 
   const scrollToTop = () => {
