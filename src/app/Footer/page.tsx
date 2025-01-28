@@ -2,7 +2,7 @@
 
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
-export const Footer = () => {
+export default function Footer()  {
   const scrollToReference = (id: string) => {
     const element = document.getElementById(id);
     if (element) {

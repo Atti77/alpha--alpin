@@ -1,4 +1,6 @@
-export const References = () => {
+"use client";
+
+export default function References()  {
   const references = [
     {
       id: 1,

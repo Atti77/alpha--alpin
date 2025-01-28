@@ -1,8 +1,6 @@
 "use client";
 
-import { NextPage } from "next";
-
-const About: NextPage = () => {
+export default function About() {
   return (
     <section
       id="about"
@@ -60,6 +58,4 @@ const About: NextPage = () => {
       </div>
     </section>
   );
-};
-
-export default About;
+}

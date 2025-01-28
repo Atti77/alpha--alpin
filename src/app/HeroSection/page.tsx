@@ -1,4 +1,6 @@
-export const HeroSection = () => {
+"use client";
+
+export default function HeroSection()  {
   return (
     <section
       className="relative h-screen bg-cover "
