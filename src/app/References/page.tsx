@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 export default function References()  {
   const references = [
@@ -35,7 +36,7 @@ export default function References()  {
               id={`reference-${ref.id}`}
               className="bg-black rounded-lg overflow-hidden"
             >
-              <img
+              <Image
                 src={ref.image}
                 alt={ref.title}
                 className="w-full h-48 object-cover"

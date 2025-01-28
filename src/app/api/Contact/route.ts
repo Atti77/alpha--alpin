@@ -5,10 +5,7 @@ type Data = {
   message: string
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export const POST = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' })
   }
@@ -29,18 +26,12 @@ export default async function handler(
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: process.env.RECIPIENT_EMAIL,
-      subject: `Új kapcsolatfelvétel - ${name}`,
-      text: `
-        Név: ${name}
-        Email: ${email}
-        Telefon: ${phone}
-        Üzenet: ${message}
-      `,
+      subject: `New contact form submission from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
     })
 
-    res.status(200).json({ message: 'Email sikeresen elküldve' })
-  } catch (error) {
-    console.error('Email küldési hiba:', error)
-    res.status(500).json({ message: 'Hiba történt az email küldése során' })
+    return res.status(200).json({ message: 'Email sent successfully' })
+  } catch {
+    return res.status(500).json({ message: 'Error sending email' })
   }
 }

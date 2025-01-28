@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function About() {
   return (
     <section
@@ -13,7 +15,7 @@ export default function About() {
         </h2>
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <img
+            <Image
               src="/profile.jpg"
               alt="Fóti Roland"
               className="rounded-lg shadow-xl"

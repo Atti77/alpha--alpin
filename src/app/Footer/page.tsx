@@ -1,6 +1,7 @@
 "use client";
 
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Footer()  {
   const scrollToReference = (id: string) => {
@@ -20,7 +21,7 @@ export default function Footer()  {
   return (
     <footer className="bg-black text-white py-2">
       <div className="flex justify-start items-center">
-          <img 
+          <Image 
             src="/ipari-logo.png" 
             alt="Alpha Alpin Logo" 
             className=" cursor-pointer hover:opacity-80 transition-opacity"
