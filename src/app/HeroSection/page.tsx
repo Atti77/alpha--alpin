@@ -4,7 +4,7 @@ export default function HeroSection()  {
   return (
     <section
       className="relative h-screen bg-cover "
-      style={{ backgroundImage: "url('/ipari-hero2.webp')" }}
+      style={{ backgroundImage: "url('/ipari-hero2.webp')", opacity: 0.7 }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex flex-col justify-center pl-16 max-w-2xl">
 
