@@ -1,6 +1,15 @@
 "use client";
 
 export default function HeroSection()  {
+
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+
   return (
     <section
       className="relative h-screen bg-cover bg-center md:bg-top md:bg-cover"
@@ -29,8 +38,8 @@ export default function HeroSection()  {
           </div>
           
           <a
-            href="#contact"
-            className="mt-6 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 w-fit text-lg font-medium shadow-lg hover:shadow-xl"
+            onClick={() => handleScroll("contact")}
+            className="mt-6 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 w-fit text-lg font-medium shadow-lg hover:shadow-xl cursor-pointer"
           >
             Kapcsolatfelvétel
           </a>
