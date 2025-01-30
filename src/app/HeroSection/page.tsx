@@ -4,7 +4,9 @@ export default function HeroSection()  {
   return (
     <section
       className="relative h-screen bg-cover bg-center md:bg-top md:bg-cover"
-      style={{ backgroundImage: "url('/ipari-hero2.webp')" }}
+      style={{ 
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/ipari-hero2.webp')`
+      }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex flex-col justify-center pl-20">
         <div className="flex flex-col gap-6">
@@ -14,16 +16,16 @@ export default function HeroSection()  {
             </h1>
           </div>
           
-          <p className="text-2xl text-gray-300 font-light">
+          <p className="text-2xl text-white ">
             Professzionális ipari alpinista szolgáltatások
           </p>
           
-          <div className="w-48 h-0.5 bg-gray-400 my-2"></div>
+          <div className="w-48 h-0.5 bg-white my-2"></div>
           
-          <div className="flex flex-col gap-2 text-xl text-gray-300 font-light">
-            <p>Magasépítési munkák</p>
-            <p>Homlokzati munkák</p>
-            <p>Tetőjavítás</p>
+          <div className="flex flex-col gap-2 text-xl text-white ">
+            <p><i>Magasépítési munkák</i></p>
+            <p><i>Homlokzati munkák</i></p>
+            <p><i>Tetőjavítás</i></p>
           </div>
           
           <a
