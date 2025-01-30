@@ -32,9 +32,11 @@ export default function HeroSection()  {
           <div className="w-48 h-0.5 bg-white my-2"></div>
           
           <div className="flex flex-col gap-2 text-xl text-white ">
-            <p><i>Magasépítési munkák</i></p>
-            <p><i>Homlokzati munkák</i></p>
-            <p><i>Tetőjavítás</i></p>
+            <ul className="list-disc list-inside">
+              <li><i>Magasépítési munkák</i></li>
+              <li><i>Homlokzati munkák</i></li>
+              <li><i>Tetőjavítás</i></li>
+            </ul>
           </div>
           
           <a
