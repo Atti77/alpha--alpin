@@ -3,35 +3,36 @@
 export default function HeroSection()  {
   return (
     <section
-      className="relative h-screen bg-cover "
-      style={{ backgroundImage: "url('/ipari-hero2.webp')", opacity: 0.7 }}
+      className="relative h-screen bg-cover bg-center md:bg-top md:bg-cover"
+      style={{ backgroundImage: "url('/ipari-hero2.webp')" }}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex flex-col justify-center pl-16 max-w-2xl">
-
-        <h1 className="text-6xl font-bold text-black mb-4 betutipus">
-          Alpha Alpin
-        </h1>
-        <div className="flex flex-col gap-4">
-          <p className="text-xl text-white">
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex flex-col justify-center pl-20">
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-3">
+            <h1 className="text-7xl md:text-black text-white betutipus leading-none">
+              Alpha Alpin
+            </h1>
+          </div>
+          
+          <p className="text-2xl text-gray-300 font-light">
             Professzionális ipari alpinista szolgáltatások
           </p>
-          <div className="w-48 h-0.5 bg-gray-400"></div>
-          <p className="text-lg text-white">
-            Magasépítési munkák
-          </p>
-          <p className="text-lg text-white">
-            Homlokzati munkák
-          </p>
-          <p className="text-lg text-white">
-            Tetőjavítás
-          </p>
+          
+          <div className="w-48 h-0.5 bg-gray-400 my-2"></div>
+          
+          <div className="flex flex-col gap-2 text-xl text-gray-300 font-light">
+            <p>Magasépítési munkák</p>
+            <p>Homlokzati munkák</p>
+            <p>Tetőjavítás</p>
+          </div>
+          
+          <a
+            href="#contact"
+            className="mt-6 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 w-fit text-lg font-medium shadow-lg hover:shadow-xl"
+          >
+            Kapcsolatfelvétel
+          </a>
         </div>
-        <a
-          href="#contact"
-          className="mt-8 px-8 py-4 bg-blue-600 text-black rounded-lg hover:bg-blue-700 transition-colors shadow-lg w-fit"
-        >
-          Kapcsolatfelvétel
-        </a>
       </div>
     </section>
   );
