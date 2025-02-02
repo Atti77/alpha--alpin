@@ -20,7 +20,7 @@ export default function HeroSection()  {
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-transparent flex flex-col justify-center pl-20">
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-3">
-            <h1 className="text-7xl md:text-black text-white betutipus leading-none">
+            <h1 className="text-7xl text-white betutipus leading-none">
               Alpha Alpin
             </h1>
           </div>
