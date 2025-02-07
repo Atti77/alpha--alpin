@@ -15,7 +15,7 @@ export async function OPTIONS() {
 export const POST = async (req: NextRequest) => {
   // CORS fejlécek
   const headers = new Headers({
-    'Access-Control-Allow-Origin': '*', // Ha pontosítani akarod, akkor írd be a domain(ek)et
+    'Access-Control-Allow-Origin': 'https://www.alpha-alpin.hu', 
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   });
