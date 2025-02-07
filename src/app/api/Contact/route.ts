@@ -14,7 +14,11 @@ const transporter = nodemailer.createTransport({
   tls: {
     rejectUnauthorized: false,
   },
-});
+}); 
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { status: 200 });
+}
 
 export const POST = async (req: Request) => {
   try {
