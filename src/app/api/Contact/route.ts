@@ -1,25 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-    },
-  });
-}
-
-export const POST = async (req: NextRequest) => {
-  // CORS fejlécek
-  const headers = new Headers({
-    'Access-Control-Allow-Origin': 'https://www.alpha-alpin.hu', 
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  });
-
+export async function POST(req: NextRequest) {
   try {
     const { name, email, phone, message } = await req.json();
 
@@ -31,9 +13,6 @@ export const POST = async (req: NextRequest) => {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
-      tls: {
-        rejectUnauthorized: false,
-      },
     });
 
     await transporter.sendMail({
@@ -43,9 +22,13 @@ export const POST = async (req: NextRequest) => {
       text: `Név: ${name}\nEmail: ${email}\nTelefonszám: ${phone}\nÜzenet: ${message}`,
     });
 
-    return new NextResponse(JSON.stringify({ message: 'Email sent successfully' }), { status: 200, headers });
+    return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
   } catch (error) {
     console.error('Email küldési hiba:', error);
-    return new NextResponse(JSON.stringify({ message: 'Error sending email' }), { status: 500, headers });
+    return NextResponse.json({ message: 'Error sending email' }, { status: 500 });
   }
-};
+}
+
+export function OPTIONS() {
+  return NextResponse.json({}, { status: 200 });
+}
