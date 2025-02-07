@@ -1,27 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
 export const POST = async (req: NextRequest) => {
-  const method = req.method.toUpperCase(); 
-
-  // CORS beállítások – mindkét domain verzió engedélyezése
-  const allowedOrigins = ['https://alpha-alpin.hu', 'https://www.alpha-alpin.hu'];
-  const origin = req.headers.get('origin') || '';
-
+  // CORS fejlécek
   const headers = new Headers({
-    'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '',
+    'Access-Control-Allow-Origin': '*', // Ha pontosítani akarod, akkor írd be a domain(ek)et
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   });
-
-  // Ha OPTIONS kérés, azonnal válaszoljunk
-  if (method === 'OPTIONS') {
-    return new NextResponse(null, { status: 200, headers });
-  }
-
-  if (method !== 'POST') {
-    return new NextResponse('Method Not Allowed', { status: 405 });
-  }
 
   try {
     const { name, email, phone, message } = await req.json();
