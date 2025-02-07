@@ -3,7 +3,8 @@
 import { useState, FormEvent } from 'react'
 
 interface FormData {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   message: string;
@@ -11,7 +12,8 @@ interface FormData {
 
 export default function ContactForm() {
   const [formData, setFormData] = useState<FormData>({
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
     message: ''
@@ -31,7 +33,10 @@ export default function ContactForm() {
 
       if (response.ok) {
         alert('Köszönjük megkeresését! Hamarosan felvesszük Önnel a kapcsolatot.')
-        setFormData({ name: '', email: '', phone: '', message: '' })
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' })
+      } else {
+        const error = await response.json()
+        alert(error.error || 'Hiba történt az üzenet küldése során')
       }
     } catch {
       alert('Hiba történt az üzenet küldése során. Kérjük próbálja újra.')
@@ -39,18 +44,28 @@ export default function ContactForm() {
   }
 
   return (
-    <section id="contact" className="py-16 bg-gray-800" style={{ backgroundColor: '#e0e0e0' }}>
+    <section id="contact" className="py-16" style={{ backgroundColor: '#e0e0e0' }}>
       <div className="max-w-xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-black mb-8 text-center"> Vedd fel velem a kapcsolatot</h2>
+        <h2 className="text-3xl font-bold text-black mb-8 text-center">Vedd fel velem a kapcsolatot</h2>
         <form onSubmit={handleSubmit} className="space-y-4 border-4 border-black rounded-lg p-4">
-          <input
-            type="text"
-            placeholder="Név"
-            value={formData.name}
-            onChange={(e) => setFormData({...formData, name: e.target.value})}
-            className="w-full p-3 rounded bg-white text-black"
-            required
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              placeholder="Vezetéknév"
+              value={formData.lastName}
+              onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+              className="w-full p-3 rounded bg-white text-black"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Keresztnév"
+              value={formData.firstName}
+              onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+              className="w-full p-3 rounded bg-white text-black"
+              required
+            />
+          </div>
           <input
             type="email"
             placeholder="Email"
@@ -75,7 +90,7 @@ export default function ContactForm() {
           ></textarea>
           <button
             type="submit"
-            className="w-full bg-black text-black py-3 rounded hover:bg-black transition text-white "
+            className="w-full bg-black text-white py-3 rounded hover:bg-gray-800 transition"
           >
             Küldés
           </button>
