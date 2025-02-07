@@ -21,7 +21,7 @@ export default function ContactForm() {
     e.preventDefault()
     
     try {
-      const response = await fetch('https://www.alpha-alpin.hu/api/contact', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

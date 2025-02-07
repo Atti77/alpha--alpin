@@ -1,3 +1,4 @@
+// app/api/contact/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
@@ -6,9 +7,7 @@ export async function POST(req: NextRequest) {
     const { name, email, phone, message } = await req.json();
 
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: true,
+      service: 'gmail', // Explicit service meghatározása
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
@@ -18,17 +17,42 @@ export async function POST(req: NextRequest) {
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: process.env.RECIPIENT_EMAIL,
-      subject: `Új kapcsolatfelvétel érkezett az oldalról! - ${name}`,
-      text: `Név: ${name}\nEmail: ${email}\nTelefonszám: ${phone}\nÜzenet: ${message}`,
+      subject: `Új kapcsolatfelvétel - ${name}`,
+      text: `
+        Név: ${name}
+        Email: ${email}
+        Telefonszám: ${phone}
+        Üzenet: ${message}
+      `,
     });
 
-    return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
+    return NextResponse.json(
+      { message: 'Email sikeresen elküldve' },
+      { 
+        status: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+        }
+      }
+    );
   } catch (error) {
     console.error('Email küldési hiba:', error);
-    return NextResponse.json({ message: 'Error sending email' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Hiba történt az email küldése során' },
+      { status: 500 }
+    );
   }
 }
 
-export function OPTIONS() {
-  return NextResponse.json({}, { status: 200 });
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
