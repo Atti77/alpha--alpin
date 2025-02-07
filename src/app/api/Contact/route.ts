@@ -1,47 +1,53 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { NextApiResponse } from 'next'
-import nodemailer from 'nodemailer'
+import { NextRequest, NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
-export const POST = async (req: NextRequest, res: NextApiResponse) => {
+export const POST = async (req: NextRequest) => {
+  // Kérés metódusának stringként való kezelése
+  const method = req.method.toUpperCase(); // Biztosítjuk, hogy nagybetűs legyen
 
-  // CORS fejlécek beállítása
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.alpha-alpin.hu'); // Csak a www-t engedélyezd
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS'); // Engedélyezett HTTP metódusok
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // CORS beállítások
+  const allowedOrigin = 'https://www.alpha-alpin.hu';
+  const headers = new Headers({
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  });
 
-  // Ha preflight (OPTIONS kérés), válaszolj 200-as státusszal és fejezd be
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  // Ha OPTIONS kérés (CORS preflight), válaszoljunk azonnal
+  if (method === 'OPTIONS') {
+    return new NextResponse(null, { status: 200, headers });
   }
 
-  const { name, email, phone, message } = await req.json()
-
-  
-
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: true,
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    tls: {
-      rejectUnauthorized: false
-    }
-  })
+  if (method !== 'POST') {
+    return new NextResponse('Method Not Allowed', { status: 405 });
+  }
 
   try {
+    const { name, email, phone, message } = await req.json();
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT),
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
+
     await transporter.sendMail({
       from: process.env.SMTP_USER,
       to: process.env.RECIPIENT_EMAIL,
-      subject: `Új kapcsolatfelvétel érkezett az oldalról! ${name}`,
-      text: `Név: ${name}\nEmail: ${email}\nTelefonszám: ${phone}\nMessage: ${message}`,
-    })
+      subject: `Új kapcsolatfelvétel érkezett az oldalról! - ${name}`,
+      text: `Név: ${name}\nEmail: ${email}\nTelefonszám: ${phone}\nÜzenet: ${message}`,
+    });
 
-    return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 })
+    return new NextResponse(JSON.stringify({ message: 'Email sent successfully' }), { status: 200, headers });
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Error sending email' }, { status: 500 })
+    console.error('Email küldési hiba:', error);
+    return new NextResponse(JSON.stringify({ message: 'Error sending email' }), { status: 500, headers });
   }
-}
+};
