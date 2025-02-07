@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { NextApiResponse } from 'next'
 import nodemailer from 'nodemailer'
 
-export const POST = async (req: NextRequest) => {
+export const POST = async (req: NextRequest, res: NextApiResponse) => {
+
+  // CORS fejlécek beállítása
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.alpha-alpin.hu'); // Csak a www-t engedélyezd
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS'); // Engedélyezett HTTP metódusok
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Ha preflight (OPTIONS kérés), válaszolj 200-as státusszal és fejezd be
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   const { name, email, phone, message } = await req.json()
+
+  
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
