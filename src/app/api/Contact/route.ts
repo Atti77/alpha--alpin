@@ -2,18 +2,19 @@ import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 export const POST = async (req: NextRequest) => {
-  // Kérés metódusának stringként való kezelése
-  const method = req.method.toUpperCase(); // Biztosítjuk, hogy nagybetűs legyen
+  const method = req.method.toUpperCase(); 
 
-  // CORS beállítások
-  const allowedOrigin = 'https://www.alpha-alpin.hu';
+  // CORS beállítások – mindkét domain verzió engedélyezése
+  const allowedOrigins = ['https://alpha-alpin.hu', 'https://www.alpha-alpin.hu'];
+  const origin = req.headers.get('origin') || '';
+
   const headers = new Headers({
-    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '',
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
   });
 
-  // Ha OPTIONS kérés (CORS preflight), válaszoljunk azonnal
+  // Ha OPTIONS kérés, azonnal válaszoljunk
   if (method === 'OPTIONS') {
     return new NextResponse(null, { status: 200, headers });
   }
