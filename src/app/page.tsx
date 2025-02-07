@@ -8,7 +8,7 @@ import Image from "next/image";
 import HeroSection from "./HeroSection/page";
 import About from "./About/page";
 import References from "./References/page";
-import ContactForm from "./ContactForm/page";
+import ContactForm from "./contact/page";
 import Footer from "./Footer/page";
 import { FaTimes, FaBars } from "react-icons/fa";
 
