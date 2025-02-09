@@ -14,20 +14,18 @@ const transporter = nodemailer.createTransport({
   tls: {
     rejectUnauthorized: false,
   },
-}); 
+});
 
-export const OPTIONS = async () => {
-  return NextResponse.json(
-    {},
-    {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      },
-    }
-  );
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*", // Or your specific domain
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      "Access-Control-Max-Age": "86400",
+    },
+  });
 }
 
 export const POST = async (req: Request) => {
@@ -68,7 +66,14 @@ export const POST = async (req: Request) => {
 
     return NextResponse.json(
       { message: "Sikeresen elküldve!" },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*", 
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        },
+      }
     );
   } catch (error) {
     console.error("API hiba:", error);
