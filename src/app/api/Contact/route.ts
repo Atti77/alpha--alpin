@@ -28,7 +28,7 @@ export async function OPTIONS() {
   });
 }
 
-export const POST = async (req: Request) => {
+export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { firstName, lastName, email, phone, message } = body;
