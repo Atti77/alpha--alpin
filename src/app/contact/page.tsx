@@ -1,52 +1,52 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState } from "react";
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  message: string;
-}
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
+    phone: "", // Telefonszám mező hozzáadva
     message: "",
   });
+  const [status, setStatus] = useState("");
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setStatus(""); // Reset status message
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-       await response.json();
-      
+
       if (response.ok) {
-        alert('Köszönjük megkeresését! Hamarosan felvesszük Önnel a kapcsolatot.');
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+        await response.json();
+        setStatus(
+          "Sikeresen elküldve, hamarosan felveszem önnel a kapcsolatot!"
+        );
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "", // Telefonszám mező resetelve
+          message: "",
+        }); // Reset form
+      } else {
+        const errorData = await response.json();
+        setStatus(errorData.error || "Hiba történt az üzenet küldésekor.");
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Hiba történt az üzenet küldése során. Kérjük próbálja újra.');
+      console.error(error);
+      setStatus("Hálózati hiba történt. Próbáld újra.");
     }
-  }
-  
+  };
+
 
   return (
     <section
@@ -118,6 +118,9 @@ export default function ContactForm() {
           >
             Küldés
           </button>
+          {status && (
+            <p className="text-center text-red-900 mt-4 ">{status}</p>
+          )}
         </form>
       </div>
     </section>
